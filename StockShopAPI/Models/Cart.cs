@@ -3,12 +3,10 @@ namespace StockShopAPI.Models
 {
 	public class Cart
 	{
-		public Cart()
-		{
-		}
 		public int Id { get; set; }
-		public int UserId { get; set; }
-		public string Products { get; set; }
+		public User User { get; set; }
+		public float TotalAmount { get; set; }
+		public ICollection<CartItem> CartItems { get; set; }
 	}
 }
 

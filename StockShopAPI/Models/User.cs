@@ -3,9 +3,6 @@ namespace StockShopAPI.Models
 {
 	public class User
 	{
-		public User() 
-		{
-		}
 		public int Id { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -14,7 +11,7 @@ namespace StockShopAPI.Models
 		public string Address { get; set; }
 		public string PaymentInfo { get; set; }
 		public string Permissions { get; set; }
-		public string OrderHistory { get; set; }
+		public ICollection<Order> OrderHistory { get; set; }
 	}
 }
 
