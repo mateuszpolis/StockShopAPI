@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using StockShopAPI.Models;
 
 namespace StockShopAPI.Data
 {
@@ -14,17 +15,25 @@ namespace StockShopAPI.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+			if (!options.IsConfigured)
+			{
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            }
         }
 
-		public DbSet<Models.User> Users { get; set; }
-		public DbSet<Models.Review> Reviews { get; set; }
-		public DbSet<Models.Product> Products { get; set; }
-		public DbSet<Models.OrderItem> OrderItems { get; set; }
-		public DbSet<Models.Order> Orders { get; set; }
-		public DbSet<Models.Category> Categories { get; set; }
-		public DbSet<Models.CartItem> CartItems { get; set; }
-		public DbSet<Models.Cart> Carts { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<Review> Reviews { get; set; }
+		public DbSet<Product> Products { get; set; }
+		public DbSet<OrderItem> OrderItems { get; set; }
+		public DbSet<Order> Orders { get; set; }
+		public DbSet<Category> Categories { get; set; }
+		public DbSet<CartItem> CartItems { get; set; }
+		public DbSet<Cart> Carts { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
 

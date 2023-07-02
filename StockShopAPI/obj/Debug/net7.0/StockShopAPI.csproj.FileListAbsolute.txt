@@ -31,3 +31,13 @@
 /Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/obj/Debug/net7.0/StockShopAPI.pdb
 /Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/obj/Debug/net7.0/StockShopAPI.genruntimeconfig.cache
 /Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/obj/Debug/net7.0/ref/StockShopAPI.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Humanizer.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Design.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Relational.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Mono.TextTemplating.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Npgsql.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/System.CodeDom.dll

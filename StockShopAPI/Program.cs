@@ -1,3 +1,7 @@
+using StockShopAPI.Data;
+using Npgsql;
+using StockShopAPI;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

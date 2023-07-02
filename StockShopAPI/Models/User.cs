@@ -11,7 +11,7 @@ namespace StockShopAPI.Models
 		public string Address { get; set; }
 		public string PaymentInfo { get; set; }
 		public string Permissions { get; set; }
-		public ICollection<Order> OrderHistory { get; set; }
+		public string OrderHistory { get; set; }
 	}
 }
 
