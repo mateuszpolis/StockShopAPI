@@ -7,7 +7,7 @@ namespace StockShopAPI.Data
 	public static class UserStore
 	{
 		public static List<UserDTO> userList = new List<UserDTO>()
-            {
+        {
                 new UserDTO()
                 {
                     Id = 0,
