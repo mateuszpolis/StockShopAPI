@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "xKAMkB3Nk2OB5y954CgmeqNCF5lKea66mm6knuKmt7NaYp6Vp9p7Q2h7Xp8aue050k2bNGdGi0TEa7OKSnkE0Q==",
+  "dgSpecHash": "hjLN5UAZVX+ir5TWQ9T3gQ/PspHpcdghF3d6wuqHRLbsZrP7MvTi4ZKunS8++bhAe09d9jsNsJM+ZyBnuRS02w==",
   "success": true,
   "projectFilePath": "/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/StockShopAPI.csproj",
   "expectedPackageFiles": [
+    "/Users/mateuszpolis/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/hinetcloud.microsoft.identitymodel.tokens/23.7.20.10/hinetcloud.microsoft.identitymodel.tokens.23.7.20.10.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/microsoft.aspnetcore.openapi/7.0.7/microsoft.aspnetcore.openapi.7.0.7.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/microsoft.entityframeworkcore/7.0.8/microsoft.entityframeworkcore.7.0.8.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/microsoft.entityframeworkcore.abstractions/7.0.8/microsoft.entityframeworkcore.abstractions.7.0.8.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/microsoft.entityframeworkcore.analyzers/7.0.8/microsoft.entityframeworkcore.analyzers.7.0.8.nupkg.sha512",
@@ -23,6 +26,12 @@
     "/Users/mateuszpolis/.nuget/packages/microsoft.extensions.logging.abstractions/7.0.0/microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/microsoft.extensions.options/7.0.0/microsoft.extensions.options.7.0.0.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/microsoft.identitymodel.abstractions/6.32.1/microsoft.identitymodel.abstractions.6.32.1.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/microsoft.identitymodel.jsonwebtokens/6.32.1/microsoft.identitymodel.jsonwebtokens.6.32.1.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/microsoft.identitymodel.logging/6.32.1/microsoft.identitymodel.logging.6.32.1.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/microsoft.identitymodel.tokens/6.32.1/microsoft.identitymodel.tokens.6.32.1.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/npgsql/7.0.4/npgsql.7.0.4.nupkg.sha512",
@@ -32,8 +41,23 @@
     "/Users/mateuszpolis/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.5.0/swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.5.0/swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/system.identitymodel.tokens.jwt/6.32.1/system.identitymodel.tokens.jwt.6.32.1.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/system.runtime/4.3.0/system.runtime.4.3.0.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/system.security.cryptography.cng/4.5.0/system.security.cryptography.cng.4.5.0.nupkg.sha512",
+    "/Users/mateuszpolis/.nuget/packages/system.text.encoding/4.3.0/system.text.encoding.4.3.0.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/Users/mateuszpolis/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'HiNetCloud.Microsoft.IdentityModel.Tokens 23.7.20.10' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "HiNetCloud.Microsoft.IdentityModel.Tokens",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }
