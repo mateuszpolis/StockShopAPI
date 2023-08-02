@@ -7,9 +7,11 @@ using Microsoft.IdentityModel.Tokens;
 using StockShopAPI.Models;
 using StockShopAPI.Models.Dto;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Cors;
 
 namespace StockShopAPI.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController: ControllerBase
@@ -23,7 +25,7 @@ namespace StockShopAPI.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<User> Register(UserDTO request)
+        public ActionResult<User> Register(UserRegisterDto request)
         {
             string passwordHash
                 = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -32,20 +34,20 @@ namespace StockShopAPI.Controllers
             user.Email = request.Email;
             user.PasswordHash = passwordHash;
 
-            return Ok(user);
+            return Ok("User registered");
         }
 
         [HttpPost("login")]
-        public ActionResult<User> Login(UserDTO request)
+        public ActionResult<User> Login(UserLoginDto request)
         {
             if(user.Email != request.Email)
             {
-                return BadRequest("User not found.");
+                return BadRequest("Incorrect email or password.");
             }
 
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
-                return BadRequest("Wrong password.");
+                return BadRequest("Incorrect email or password.");
             }
 
             string token = CreateToken(user);
@@ -57,7 +59,9 @@ namespace StockShopAPI.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

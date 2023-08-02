@@ -14,6 +14,7 @@ namespace StockShopAPI.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public ActionResult<IEnumerable<Product>> GetProducts()
 		{
+            Console.WriteLine("ce");
 			var productList = ProductStore.productList;
 			if (productList == null)
 			{
