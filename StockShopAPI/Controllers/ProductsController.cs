@@ -11,7 +11,7 @@ namespace StockShopAPI.Controllers
     {
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public ActionResult<IEnumerable<Product>> GetProducts()
 		{
             Console.WriteLine("ce");

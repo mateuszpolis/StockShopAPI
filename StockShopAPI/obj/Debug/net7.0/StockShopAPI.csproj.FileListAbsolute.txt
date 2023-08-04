@@ -47,3 +47,7 @@
 /Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.IdentityModel.Logging.dll
 /Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll
 /Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/mateuszpolis/Documents/Projects/StockShop/StockShopAPI/StockShopAPI/bin/Debug/net7.0/Dapper.dll

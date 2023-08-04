@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>003b8cb7-b759-4ce4-8435-b6406cd2a305</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
@@ -20,6 +21,8 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="HiNetCloud.Microsoft.IdentityModel.Tokens" Version="23.7.20.10" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
+    <PackageReference Include="Dapper" Version="2.0.143" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,11 +30,13 @@
     <None Remove="Models\" />
     <None Remove="Data\" />
     <None Remove="Models\Dto\" />
+    <None Remove="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Data\" />
     <Folder Include="Models\Dto\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>
