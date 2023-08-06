@@ -10,22 +10,25 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Dapper;
 using StockShopAPI.Helpers;
+using StockShopAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StockShopAPI.Controllers
 {
-    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController: ControllerBase
-	{
+    public class AuthController : ControllerBase
+    {
         public static User user = new User();
         private readonly IConfiguration _configuration;
         private DataContext _context;
+        private AuthRepository _authRepository;
 
-        public AuthController(IConfiguration configuration, DataContext context)
+        public AuthController(IConfiguration configuration, DataContext context, AuthRepository authRepository)
         {
             _configuration = configuration;
             _context = context;
+            _authRepository = authRepository;
         }
 
         [HttpPost("register")]
@@ -41,23 +44,13 @@ namespace StockShopAPI.Controllers
             }
             string passwordHash
                 = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            using var connection = _context.CreateConnection();
-            var sql = @"
-                INSERT INTO Users (FirstName, LastName, Email, PasswordHash)
-                VALUES (@FirstName, @LastName, @Email, @PasswordHash)
-            ";
-            await connection.ExecuteAsync(sql, new
-            {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                PasswordHash = passwordHash
-            });
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Email = request.Email;
             user.PasswordHash = passwordHash;
+
+            await _authRepository.Create(user);
 
             return Ok("Registration succesfull");
         }
@@ -65,28 +58,40 @@ namespace StockShopAPI.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(UserLoginDto request)
         {
-            using var connection = _context.CreateConnection();
-            var sql = "SELECT FirstName, LastName, Email, PasswordHash FROM Users WHERE Email = @Email";
+            User user = await _authRepository.GetByEmail(request.Email);
 
-            // Fetch user details from the database based on the provided email
-            var userFromDb = await connection.QuerySingleOrDefaultAsync<User>(sql, new { Email = request.Email });
-
-            if (userFromDb == null)
+            if (user == null)
+            {
+                return BadRequest("Incorrect email or password.");
+            }
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
                 return BadRequest("Incorrect email or password.");
             }
 
-            // Verify the password hash
-            if (!BCrypt.Net.BCrypt.Verify(request.Password, userFromDb.PasswordHash))
-            {
-                return BadRequest("Incorrect email or password.");
-            }
-
-            // Create the token and return it as a response
-            string token = CreateToken(userFromDb, request.RememberUser);
+            string token = CreateToken(user, request.RememberUser);
             return Ok(token);
         }
 
+        [Authorize]
+        [HttpPut("edit")]
+        public async Task<ActionResult<User>> Edit(UserEditDto userEdit)
+        {
+            Console.WriteLine(userEdit);
+            var user = await _authRepository.GetByEmail(userEdit.Email);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            user.FirstName = userEdit.FirstName;
+            user.LastName = userEdit.LastName;
+
+            await _authRepository.Update(user);
+
+            string token = CreateToken(user, false);
+            return Ok(token);
+        }
 
         private string CreateToken(User user, Boolean rememberUser)
         {
@@ -108,13 +113,13 @@ namespace StockShopAPI.Controllers
                     expires: expirationDate,
                     signingCredentials: creds
                 );
-         
+
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
         }
 
-        private bool ValidatePassword(string password)
+        private static bool ValidatePassword(string password)
         {
             // Check for password length (8 to 20 characters)
             if (password.Length < 8 || password.Length > 20)
@@ -150,7 +155,7 @@ namespace StockShopAPI.Controllers
             return true;
         }
 
-        private bool ValidateEmail(string email)
+        private static bool ValidateEmail(string email)
         {
             // A basic regular expression pattern to validate the email address
             string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";

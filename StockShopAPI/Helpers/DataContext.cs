@@ -49,10 +49,34 @@ public class DataContext
         var sql = @"
             CREATE TABLE IF NOT EXISTS Users (
                 Id SERIAL PRIMARY KEY,               
-                FirstName VARCHAR,
-                LastName VARCHAR,
-                Email VARCHAR,
-                PasswordHash VARCHAR
+                FirstName VARCHAR NOT NULL,
+                LastName VARCHAR NOT NULL,
+                Email VARCHAR NOT NULL,
+                PasswordHash VARCHAR NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS Products (
+                Id SERIAL PRIMARY KEY,
+                Name VARCHAR(255) NOT NULL,
+                Brand VARCHAR(255) NOT NULL,
+                Price FLOAT NOT NULL,
+                Description TEXT NOT NULL,
+                Discount INT NOT NULL,
+                StockQuantity INT NOT NULL,
+                Availability BOOLEAN NOT NULL,
+                CreatedTime TIMESTAMP NOT NULL,
+                UpdatedTime TIMESTAMP NOT NULL,
+                Weight FLOAT,
+                Dimensions VARCHAR(255),
+                Rating INT
+            );
+
+            CREATE TABLE IF NOT EXISTS Categories (
+                Id SERIAL PRIMARY KEY,
+                Name VARCHAR(255) NOT NULL,
+                Description VARCHAR(255),
+                HasChildren BOOLEAN NOT NULL,
+                ParentCategory INT REFERENCES Categories(id) ON DELETE CASCADE
             );
         ";
 

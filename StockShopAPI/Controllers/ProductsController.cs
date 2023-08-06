@@ -1,27 +1,45 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using StockShopAPI.Data;
 using StockShopAPI.Models;
+using StockShopAPI.Repositories;
 
 namespace StockShopAPI.Controllers
 {
-	[Route("api/Products")]
-	[ApiController]
-	public class ProductsController: ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
     {
-		[HttpGet]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public ActionResult<IEnumerable<Product>> GetProducts()
-		{
-            Console.WriteLine("ce");
-			var productList = ProductStore.productList;
-			if (productList == null)
-			{
-				return NotFound();
-			}
-			return Ok(productList);
-		}
-	}
+        private ProductRepository _productRepository;
+
+        public ProductsController(ProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Product>> CreateProduct(Product request)
+        {
+            await _productRepository.Create(request);
+
+            return Ok(new { message = "Product created succesfuly" });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProducts()
+        {
+            var products = await _productRepository.GetProducts();
+            return Ok(products);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id)
+        {
+            var product = await _productRepository.GetById(id);
+            return Ok(product);
+        }
+
+    }
 }
 

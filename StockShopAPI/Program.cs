@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StockShopAPI.Controllers;
 using StockShopAPI.Helpers;
+using StockShopAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,11 +39,21 @@ builder.Services.Configure<DbSettings>(builder.Configuration.GetSection("DbSetti
 // configure DI for application services
 builder.Services.AddSingleton<DataContext>();
 builder.Services.AddScoped<AuthController>();
+builder.Services.AddScoped<AuthRepository>();
+builder.Services.AddScoped<ProductsController>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<CategoriesController>();
+builder.Services.AddScoped<CategoryRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication().AddJwtBearer(options =>
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
@@ -51,10 +62,15 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ValidateIssuerSigningKey = true,
         ValidateAudience = false,
         ValidateIssuer = false,
+        ValidateLifetime = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                builder.Configuration.GetSection("AppSettings:Token").Value!))
-};
+                builder.Configuration.GetSection("AppSettings:Token").Value!)),
+        ValidIssuer = builder.Configuration.GetSection("AppSettings:Issuer").Value,
+        ValidAudience = builder.Configuration.GetSection("AppSettings:Audience").Value,
+    };
 });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -73,9 +89,8 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
