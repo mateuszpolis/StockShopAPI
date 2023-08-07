@@ -63,6 +63,8 @@ public class DataContext
                 Description TEXT NOT NULL,
                 Discount INT NOT NULL,
                 StockQuantity INT NOT NULL,
+                Orders INT NOT NULL,
+                CategoryId INT NOT NULL,
                 Availability BOOLEAN NOT NULL,
                 CreatedTime TIMESTAMP NOT NULL,
                 UpdatedTime TIMESTAMP NOT NULL,
@@ -76,7 +78,7 @@ public class DataContext
                 Name VARCHAR(255) NOT NULL,
                 Description VARCHAR(255),
                 HasChildren BOOLEAN NOT NULL,
-                ParentCategory INT REFERENCES Categories(id) ON DELETE CASCADE
+                ParentCategory INT REFERENCES Categories(Id) ON DELETE CASCADE
             );
         ";
 

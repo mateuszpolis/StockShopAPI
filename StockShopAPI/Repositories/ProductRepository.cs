@@ -28,20 +28,23 @@ namespace StockShopAPI.Repositories
         {
             using var connection = _context.CreateConnection();
             var sql = @"
-                INSERT INTO Products (Name, Brand, Price, Description, Discount, StockQuantity, Availability, CreatedTime, UpdatedTime, Weight, Dimensions, Rating)
-                VALUES (@Name, @Brand, @Price, @Description, @Discount, @StockQuantity, @Availability, @CreatedTime, @UpdatedTime, @Weight, @Dimensions, @Rating)
+                INSERT INTO Products (Name, Brand, Price, Description, Discount, StockQuantity, Availability, CreatedTime, UpdatedTime, Weight, Dimensions, Rating, Orders, CategoryId)
+                VALUES (@Name, @Brand, @Price, @Description, @Discount, @StockQuantity, @Availability, @CreatedTime, @UpdatedTime, @Weight, @Dimensions, @Rating, @Orders, @CategoryId)
                 
             ";
             await connection.ExecuteAsync(sql, product);
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<Product>> GetProducts(string searchQuery, int limit)
         {
             using var connection = _context.CreateConnection();
             var sql = @"
                 SELECT * FROM Products
+                WHERE Name ILIKE '%' || @searchQuery || '%'
+                ORDER BY Orders DESC
+                LIMIT @limit
             ";
-            return await connection.QueryAsync<Product>(sql);
+            return await connection.QueryAsync<Product>(sql, new { searchQuery, limit });
         }
     }
 }

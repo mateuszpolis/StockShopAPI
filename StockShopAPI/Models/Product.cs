@@ -11,8 +11,9 @@ namespace StockShopAPI.Models
         public List<Tuple<string, string>> Specification = new List<Tuple<string, string>>();
         public List<Tuple<float, DateTime>> PriceHistory { get; set; } = new List<Tuple<float, DateTime>>();
         public int Discount { get; set; } = 0;
+        public int Orders { get; set; } = 0;
         public int StockQuantity { get; set; } = 0;
-        public List<string> Categories { get; set; } = new List<string>();
+        public int CategoryId { get; set; }
         public List<string> Images { get; set; } = new List<string>();
         public List<Review> Reviews { get; set; } = new List<Review>();
         public bool Availability { get; set; } = false;
