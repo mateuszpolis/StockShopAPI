@@ -15,19 +15,29 @@ namespace StockShopAPI.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategories(int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetCategoryById(int id)
         {
             var categories = await _categoryRepository.GetCategories(id);
+            if (categories == null)
+            {
+                return NotFound();
+            }
             return Ok(categories);
+        }
+
+        [HttpGet("{id:int}/hierarchy")]
+        public async Task<IActionResult> GetCategoryHierarchy(int id)
+        {
+            var hierarchy = await _categoryRepository.GetCategoryHierarchy(id);
+            return Ok(hierarchy.Reverse());
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCategory(Category category)
         {
             await _categoryRepository.Create(category);
-            return Ok("Category created succesfuly");
+            return Ok("Category created successfully");
         }
     }
 }
-

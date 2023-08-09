@@ -8,6 +8,8 @@ namespace StockShopAPI.Models
         public string? Description { get; set; }
         public bool HasChildren { get; set; } = false;
         public int? ParentCategory { get; set; }
+        public int Transactions { get; set; }
+        public int Visits { get; set; }
     }
 }
 

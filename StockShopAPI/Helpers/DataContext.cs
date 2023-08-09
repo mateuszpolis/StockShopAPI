@@ -78,7 +78,9 @@ public class DataContext
                 Name VARCHAR(255) NOT NULL,
                 Description VARCHAR(255),
                 HasChildren BOOLEAN NOT NULL,
-                ParentCategory INT REFERENCES Categories(Id) ON DELETE CASCADE
+                ParentCategory INT REFERENCES Categories(Id) ON DELETE CASCADE,
+                Transactions INT NOT NULL,
+                Visits INT NOT NULL
             );
         ";
 
