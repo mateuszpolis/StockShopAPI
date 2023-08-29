@@ -70,7 +70,8 @@ public class DataContext
                 UpdatedTime TIMESTAMP NOT NULL,
                 Weight FLOAT,
                 Dimensions VARCHAR(255),
-                Rating INT
+                Rating FLOAT NOT NULL,
+                NumberOfReviews INT NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS Categories (
@@ -81,6 +82,32 @@ public class DataContext
                 ParentCategory INT REFERENCES Categories(Id) ON DELETE CASCADE,
                 Transactions INT NOT NULL,
                 Visits INT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS Carts (
+                Id SERIAL PRIMARY KEY,
+                UserId INT REFERENCES Users(Id) ON DELETE CASCADE,
+                TotalAmount FLOAT NOT NULL,
+                TotalQuantity INT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS CartItems (
+                Id SERIAL PRIMARY KEY,
+                CartId INT REFERENCES Carts(Id) ON DELETE CASCADE,
+                ProductId INT REFERENCES Products(Id) ON DELETE CASCADE,
+                Quantity INT NOT NULL,
+                TotalPrice FLOAT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS Reviews (
+                Id SERIAL PRIMARY KEY,
+                UserId INT REFERENCES Users(Id) ON DELETE CASCADE,
+                ProductId INT REFERENCES Products(Id) ON DELETE CASCADE,
+                Rating INT NOT NULL,
+                ReviewText VARCHAR(255) NOT NULL,
+                Likes INT NOT NULL,
+                OwnsProduct BOOLEAN NOT NULL,
+                CreatedTime TIMESTAMP NOT NULL
             );
         ";
 

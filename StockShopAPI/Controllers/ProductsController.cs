@@ -27,9 +27,9 @@ namespace StockShopAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts(string searchQuery, int limit)
+        public async Task<IActionResult> GetProducts(string searchQuery, int category, string sorting, int limit)
         {
-            var products = await _productRepository.GetProducts(searchQuery, limit);
+            var products = await _productRepository.GetProducts(searchQuery, category, sorting, limit);
             return Ok(products);
         }
 

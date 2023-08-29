@@ -35,16 +35,55 @@ namespace StockShopAPI.Repositories
             await connection.ExecuteAsync(sql, product);
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(string searchQuery, int limit)
+        public async Task<IEnumerable<Product>> GetProducts(string searchQuery, int category, string sorting, int limit)
+        {
+            using var connection = _context.CreateConnection();
+            string order = "ORDER BY Orders DESC";
+            if (sorting == "price_low_to_high")
+            {
+                order = "ORDER BY Price ASC";
+            }
+            else if (sorting == "price_high_to_low")
+            {
+                order = "ORDER BY Price DESC";
+            }
+            else if (sorting == "rating_high_to_low")
+            {
+                order = "ORDER BY Rating DESC";
+            }
+            IEnumerable<Category> subcategories = await GetSubcategories(category);
+            var categoryIds = subcategories.Select(c => c.Id).Append(category).ToArray();
+            var sql = $@"
+                SELECT * FROM Products
+                WHERE Name ILIKE '%' || @searchQuery || '%'
+                AND CategoryId = ANY(@categoryIds)
+                {order}
+                LIMIT @limit
+            ";
+
+            return await connection.QueryAsync<Product>(sql, new { searchQuery, categoryIds, limit });
+        }
+
+        public async Task<IEnumerable<Category>> GetSubcategories(int category)
         {
             using var connection = _context.CreateConnection();
             var sql = @"
-                SELECT * FROM Products
-                WHERE Name ILIKE '%' || @searchQuery || '%'
-                ORDER BY Orders DESC
-                LIMIT @limit
+                WITH RECURSIVE Subcategories AS (
+                    SELECT Id, Name, Description, HasChildren, ParentCategory, Transactions, Visits
+                    FROM Categories
+                    WHERE Id = @category
+
+                    UNION ALL
+
+                    SELECT c.Id, c.Name, c.Description, c.HasChildren, c.ParentCategory, c.Transactions, c.Visits
+                    FROM Categories c
+                    JOIN Subcategories s ON c.ParentCategory = s.Id
+                )
+                SELECT Id, Name, Description, HasChildren, ParentCategory, Transactions, Visits
+                FROM Subcategories
+                WHERE Id <> @category;
             ";
-            return await connection.QueryAsync<Product>(sql, new { searchQuery, limit });
+            return await connection.QueryAsync<Category>(sql, new { category });
         }
     }
 }

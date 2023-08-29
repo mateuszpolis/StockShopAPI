@@ -50,7 +50,7 @@ namespace StockShopAPI.Controllers
             user.Email = request.Email;
             user.PasswordHash = passwordHash;
 
-            await _authRepository.Create(user);
+            await _authRepository.CreateUserAndCart(user);
 
             return Ok("Registration succesfull");
         }

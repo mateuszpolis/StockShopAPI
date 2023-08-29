@@ -44,6 +44,10 @@ builder.Services.AddScoped<ProductsController>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<CategoriesController>();
 builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<CartController>();
+builder.Services.AddScoped<CartRepository>();
+builder.Services.AddScoped<ReviewsController>();
+builder.Services.AddScoped<ReviewRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

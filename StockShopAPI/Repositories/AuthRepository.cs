@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using StockShopAPI.Helpers;
@@ -7,8 +8,8 @@ using StockShopAPI.Models.Dto;
 
 namespace StockShopAPI.Repositories
 {
-	public class AuthRepository
-	{
+    public class AuthRepository
+    {
         private DataContext _context;
 
         public AuthRepository(DataContext context)
@@ -37,21 +38,48 @@ namespace StockShopAPI.Repositories
             return await connection.QuerySingleOrDefaultAsync<User>(sql, new { email });
         }
 
-        public async Task Create(User user)
+        public async Task CreateUserAndCart(User user)
         {
-            using System.Data.IDbConnection connection = _context.CreateConnection();
-            var sql = @"
-                INSERT INTO Users (FirstName, LastName, Email, PasswordHash)
-                VALUES (@FirstName, @LastName, @Email, @PasswordHash)
-            ";
-            await connection.ExecuteAsync(sql, new
+            using var connection = _context.CreateConnection();
+
+            var sqlCreateUser = @"
+        INSERT INTO Users (FirstName, LastName, Email, PasswordHash)
+        VALUES (@FirstName, @LastName, @Email, @PasswordHash)
+        RETURNING Id;
+    ";
+
+            var sqlCreateCart = @"
+        INSERT INTO Carts (UserId, TotalAmount, TotalQuantity)
+        VALUES (@UserId, 0, 0)
+        RETURNING Id;
+    ";
+
+            try
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                PasswordHash = user.PasswordHash
-            });
+                connection.Open(); // Open the connection asynchronously
+
+                using var transaction = connection.BeginTransaction();
+
+                try
+                {
+                    var userId = await connection.ExecuteScalarAsync<int>(sqlCreateUser, user);
+
+                    var cartId = await connection.ExecuteScalarAsync<int>(sqlCreateCart, new { UserId = userId });
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+            finally
+            {
+                connection.Close(); // Close the connection in the finally block
+            }
         }
+
 
         public async Task Update(User user)
         {
