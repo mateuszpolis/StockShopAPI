@@ -5,6 +5,8 @@ namespace StockShopAPI.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public string UserFirstName { get; set; } = string.Empty;
+        public string UserLastName { get; set; } = string.Empty;
         public int ProductId { get; set; }
         public int Rating { get; set; }
         public string ReviewText { get; set; } = string.Empty;

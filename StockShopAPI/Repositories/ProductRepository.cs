@@ -53,10 +53,15 @@ namespace StockShopAPI.Repositories
             }
             IEnumerable<Category> subcategories = await GetSubcategories(category);
             var categoryIds = subcategories.Select(c => c.Id).Append(category).ToArray();
+            string categories = "AND CategoryId = ANY(@categoryIds)";
+            if (category == -1)
+            {
+                categories = "";
+            }
             var sql = $@"
                 SELECT * FROM Products
                 WHERE Name ILIKE '%' || @searchQuery || '%'
-                AND CategoryId = ANY(@categoryIds)
+                {categories}
                 {order}
                 LIMIT @limit
             ";

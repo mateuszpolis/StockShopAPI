@@ -77,7 +77,6 @@ namespace StockShopAPI.Controllers
         [HttpPut("edit")]
         public async Task<ActionResult<User>> Edit(UserEditDto userEdit)
         {
-            Console.WriteLine(userEdit);
             var user = await _authRepository.GetByEmail(userEdit.Email);
             if (user == null)
             {
@@ -97,9 +96,7 @@ namespace StockShopAPI.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim("email", user.Email),
-                new Claim("name", user.FirstName),
-                new Claim("surname", user.LastName)
+                new Claim("id", user.Id.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

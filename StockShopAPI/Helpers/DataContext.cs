@@ -63,15 +63,15 @@ public class DataContext
                 Description TEXT NOT NULL,
                 Discount INT NOT NULL,
                 StockQuantity INT NOT NULL,
-                Orders INT NOT NULL,
+                Orders INT DEFAULT 0 NOT NULL,
                 CategoryId INT NOT NULL,
                 Availability BOOLEAN NOT NULL,
-                CreatedTime TIMESTAMP NOT NULL,
-                UpdatedTime TIMESTAMP NOT NULL,
+                CreatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                UpdatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 Weight FLOAT,
                 Dimensions VARCHAR(255),
-                Rating FLOAT NOT NULL,
-                NumberOfReviews INT NOT NULL
+                Rating FLOAT DEFAULT 0 NOT NULL,
+                NumberOfReviews INT DEFAULT 0 NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS Categories (
@@ -102,12 +102,20 @@ public class DataContext
             CREATE TABLE IF NOT EXISTS Reviews (
                 Id SERIAL PRIMARY KEY,
                 UserId INT REFERENCES Users(Id) ON DELETE CASCADE,
+                UserFirstName VARCHAR,
+                UserLastName VARCHAR,
                 ProductId INT REFERENCES Products(Id) ON DELETE CASCADE,
                 Rating INT NOT NULL,
                 ReviewText VARCHAR(255) NOT NULL,
-                Likes INT NOT NULL,
-                OwnsProduct BOOLEAN NOT NULL,
-                CreatedTime TIMESTAMP NOT NULL
+                Likes INT DEFAULT 0 NOT NULL,
+                OwnsProduct BOOLEAN DEFAULT false NOT NULL,
+                CreatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS ReviewLikes (
+                UserId INT REFERENCES Users(Id),
+                ReviewId INT REFERENCES Reviews(Id),
+                LikeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
             );
         ";
 
