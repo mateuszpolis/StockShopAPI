@@ -23,12 +23,14 @@ namespace StockShopAPI.Controllers
         private readonly IConfiguration _configuration;
         private DataContext _context;
         private AuthRepository _authRepository;
+        private EmailAuthService _emailAuth;
 
-        public AuthController(IConfiguration configuration, DataContext context, AuthRepository authRepository)
+        public AuthController(IConfiguration configuration, DataContext context, AuthRepository authRepository, EmailAuthService emailAuth)
         {
             _configuration = configuration;
             _context = context;
             _authRepository = authRepository;
+            _emailAuth = emailAuth;
         }
 
         [HttpPost("register")]
@@ -52,7 +54,9 @@ namespace StockShopAPI.Controllers
 
             await _authRepository.CreateUserAndCart(user);
 
-            return Ok("Registration succesfull");
+            await _emailAuth.SendConfirmSignup(request.Email, "test", "test");
+
+            return Ok();
         }
 
         [HttpPost("login")]

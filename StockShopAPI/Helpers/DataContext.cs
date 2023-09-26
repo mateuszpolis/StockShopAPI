@@ -55,6 +55,16 @@ public class DataContext
                 PasswordHash VARCHAR NOT NULL
             );
 
+            CREATE TABLE IF NOT EXISTS Categories (
+                Id SERIAL PRIMARY KEY,
+                Name VARCHAR(255) NOT NULL,
+                Description VARCHAR(255),
+                HasChildren BOOLEAN DEFAULT false NOT NULL,
+                ParentCategory INT REFERENCES Categories(Id) ON DELETE CASCADE,
+                Transactions INT NOT NULL,
+                Visits INT NOT NULL
+            );
+
             CREATE TABLE IF NOT EXISTS Products (
                 Id SERIAL PRIMARY KEY,
                 Name VARCHAR(255) NOT NULL,
@@ -64,7 +74,7 @@ public class DataContext
                 Discount INT NOT NULL,
                 StockQuantity INT NOT NULL,
                 Orders INT DEFAULT 0 NOT NULL,
-                CategoryId INT NOT NULL,
+                CategoryId INT REFERENCES Categories(Id),
                 Availability BOOLEAN NOT NULL,
                 CreatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 UpdatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -72,16 +82,6 @@ public class DataContext
                 Dimensions VARCHAR(255),
                 Rating FLOAT DEFAULT 0 NOT NULL,
                 NumberOfReviews INT DEFAULT 0 NOT NULL
-            );
-
-            CREATE TABLE IF NOT EXISTS Categories (
-                Id SERIAL PRIMARY KEY,
-                Name VARCHAR(255) NOT NULL,
-                Description VARCHAR(255),
-                HasChildren BOOLEAN NOT NULL,
-                ParentCategory INT REFERENCES Categories(Id) ON DELETE CASCADE,
-                Transactions INT NOT NULL,
-                Visits INT NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS Carts (
@@ -113,9 +113,38 @@ public class DataContext
             );
 
             CREATE TABLE IF NOT EXISTS ReviewLikes (
-                UserId INT REFERENCES Users(Id),
-                ReviewId INT REFERENCES Reviews(Id),
+                UserId INT REFERENCES Users(Id) ON DELETE CASCADE,
+                ReviewId INT REFERENCES Reviews(Id) ON DELETE CASCADE,
                 LikeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS Images (
+                Id SERIAL PRIMARY KEY,
+                ProductId INT REFERENCES Products(Id) ON DELETE CASCADE,
+                IsMainImage BOOLEAN DEFAULT false NOT NULL,
+                AddedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS Parameters (
+                Id SERIAL PRIMARY KEY,
+                CategoryId INT REFERENCES Categories(Id),
+                Name VARCHAR(50) NOT NULL,
+                Description VARCHAR(255),
+                ParameterType Varchar(10)
+            );
+
+            CREATE TABLE IF NOT EXISTS PredefinedChoices (
+                Id SERIAL PRIMARY KEY,
+                ParameterId INT REFERENCES Parameters(Id) ON DELETE CASCADE,
+                Name VARCHAR(50),
+                MinValue INT,
+                MaxValue INT
+            );
+
+            CREATE TABLE IF NOT EXISTS ProductParameters (
+                ProductId INT REFERENCES Products(Id) ON DELETE CASCADE,
+                ParameterId INT REFERENCES Parameters(Id) ON DELETE CASCADE,
+                ChoiceId INT REFERENCES PredefinedChoices(Id) ON DELETE CASCADE
             );
         ";
 

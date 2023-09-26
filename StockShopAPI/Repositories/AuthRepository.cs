@@ -43,16 +43,16 @@ namespace StockShopAPI.Repositories
             using var connection = _context.CreateConnection();
 
             var sqlCreateUser = @"
-        INSERT INTO Users (FirstName, LastName, Email, PasswordHash)
-        VALUES (@FirstName, @LastName, @Email, @PasswordHash)
-        RETURNING Id;
-    ";
+                INSERT INTO Users (FirstName, LastName, Email, PasswordHash)
+                VALUES (@FirstName, @LastName, @Email, @PasswordHash)
+                RETURNING Id;
+            ";
 
             var sqlCreateCart = @"
-        INSERT INTO Carts (UserId, TotalAmount, TotalQuantity)
-        VALUES (@UserId, 0, 0)
-        RETURNING Id;
-    ";
+                INSERT INTO Carts (UserId, TotalAmount, TotalQuantity)
+                VALUES (@UserId, 0, 0)
+                RETURNING Id;
+            ";
 
             try
             {

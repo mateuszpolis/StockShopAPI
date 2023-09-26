@@ -48,6 +48,9 @@ builder.Services.AddScoped<CartController>();
 builder.Services.AddScoped<CartRepository>();
 builder.Services.AddScoped<ReviewsController>();
 builder.Services.AddScoped<ReviewRepository>();
+builder.Services.AddScoped<ParametersController>();
+builder.Services.AddScoped<ParameterRepository>();
+builder.Services.AddScoped<EmailAuthService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
